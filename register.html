@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareME | Register</title>
+    <link rel="stylesheet" href="/src/output.css">
+    <script src="https://kit.fontawesome.com/7e1831019c.js" crossorigin="anonymous"></script>
+    <script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="flex justify-center items-center min-h-screen">
+    <div class="w-[500px] h-[600px] bg-white">
+        <!--Header-->
+        <div class="font-poppins gap-2.5 mb-6 cursor-pointer">
+            <h3 class="font-semibold text-5xl mb-5 font-montserrat">Daftar</h3>
+            <h5>Hai, Selamat Datang</h5>
+        </div>
+
+        <!--Form-->
+        <div>
+            <div class="flex gap-x-5">
+                <div>
+                    <label for="username" class="font-montserrat font-medium">Nama Lengkap</label>
+                    <input id="username" type="text" placeholder="John bin Jono"
+                        class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                </div>
+                <div>
+                    <label for="phone" class="font-montserrat font-medium">No. Telepon</label>
+                    <input id="phone" type="tel" placeholder="John bin Jono"
+                        class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                </div>
+            </div>
+
+            <div class="flex gap-x-5">
+                <div class="w-full">
+                    <label for="registerEmail" class="font-montserrat font-medium">Email</label>
+                    <input id="registerEmail" type="email" placeholder="john@email.com"
+                        class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                </div>
+            </div>
+
+            <div class="flex gap-x-5">
+                <div>
+                    <label for="registerPassword" class="font-montserrat font-medium">Password</label>
+                    <input id="registerPassword" type="password" placeholder="Masukan Password"
+                        class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                </div>
+                <div>
+                    <label for="passwordConfirm" class="font-montserrat font-medium">Konfirmasi Password</label>
+                    <input id="passwordConfirm" type="password" placeholder="Konfirmasi Password"
+                        class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                </div>
+            </div>
+        </div>
+
+        <!--Button-->
+        <div>
+            <button id="registerBtn" type="button"
+                class="mb-5 w-full h-[50px] bg-main text-white font-montserrat font-semibold rounded-lg cursor-pointer">
+                Daftar</button>
+        </div>
+
+        <div class="flex justify-between items-center mb-5">
+            <div class="w-30 h-px bg-outline"></div>
+            <h3 class="text-[12px] font-poppins text-outline cursor-pointer">atau Daftar Dengan</h3>
+            <div class="w-30 h-px bg-outline"></div>
+        </div>
+
+        <div
+            class="w-full border border-outline h-[50px] rounded-lg flex items-center justify-center gap-3 px-4 mb-8 cursor-pointer">
+            <img src="./img/google.png" alt="Google" class="w-10">
+            <h4 class="text-black font-semibold font-poppins">Login Dengan Google</h4>
+        </div>
+
+
+    </div>
+
+    <!--Script-->
+    <script src="register.js"></script>
+</body>
+
+</html>
