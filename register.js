@@ -19,15 +19,15 @@ async function getAllUsers() {
 
 
 //Register Page
-const registerEmail = document.getElementById('registerEmail');
-const registerPassword = document.getElementById('registerPassword');
+const email = document.getElementById('registerEmail');
+const password = document.getElementById('registerPassword');
 const passwordConfirm = document.getElementById('passwordConfirm');
-const telepon = document.getElementById('phone');
-const username = document.getElementById('username');
+const phone = document.getElementById('phone');
+const user = document.getElementById('username');
 
 document.getElementById('registerBtn').addEventListener('click', async () => {
 
-    if (registerEmail.value === '' || registerPassword.value === '' || telepon.value === '' || username.value === '') {
+    if (email.value === '' || password.value === '' || phone.value === '' || username.value === '') {
         Swal.fire({
             icon: 'error',
             confirmButtonColor: '#00C9A7',
@@ -49,7 +49,7 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
     const { data: existingUser, error: fetchError } = await supabaseClient
         .from('User')
         .select('*')
-        .eq('email', registerEmail.value);
+        .eq('email', email.value);
 
     if (fetchError) {
         console.error('Error fetching user:', fetchError);
@@ -75,7 +75,7 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
     const { data, error } = await supabaseClient
         .from('User')
         .insert([
-            { email: email, password: password, no_telepon: phone, nama_lengkap: user },
+            { email: email.value, password: password.value, no_telepon: phone.value, nama_lengkap: user.value },
         ]);
 
     if (error) {
