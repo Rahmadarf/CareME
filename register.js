@@ -91,6 +91,7 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
             title: 'Gagal Register',
             text: 'Terjadi kesalahan saat mendaftar.',
         });
+        return;
     } else {
         console.log('User registered:', data);
         Swal.fire({
