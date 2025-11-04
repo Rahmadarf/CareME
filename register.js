@@ -92,7 +92,7 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
             icon: 'success',
             confirmButtonColor: '#00C9A7',
             title: 'Berhasil Register',
-            text: `Selamat Datang ${user}`,
+            text: `Selamat Datang ${existingUser.nama_lengkap}`,
         }).then(() => {
             localStorage.setItem('sessionUser', JSON.stringify(existingUser))
             window.location.href = 'index.html';
