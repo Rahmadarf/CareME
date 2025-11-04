@@ -17,6 +17,10 @@ async function getAllUsers() {
     return data;
 }
 
+if (localStorage.getItem('sessionUser')) {
+    window.location.href = 'index.html';
+}
+
 //Login Page
 const email = document.getElementById('email');
 const password = document.getElementById('password');
