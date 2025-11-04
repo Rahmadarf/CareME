@@ -92,13 +92,14 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
             text: 'Terjadi kesalahan saat mendaftar.',
         });
     } else {
-        console.log('User registered:', user);
+        console.log('User registered:', data);
         Swal.fire({
             icon: 'success',
             confirmButtonColor: '#00C9A7',
             title: 'Berhasil Register',
             text: `Selamat Datang ${user}`,
         }).then(() => {
+            localStorage.setItem('sessionUser', JSON.stringify(existingUser))
             window.location.href = 'index.html';
             document.getElementById("email").value = '';
             document.getElementById("password").value = '';
