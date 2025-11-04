@@ -36,7 +36,7 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
         }).then(() => {
             return;
         });
-    } else if (password !== confirmPassword) {
+    } else if (registerPassword.value !== passwordConfirm.value) {
         Swal.fire({
             icon: 'error',
             confirmButtonColor: '#00C9A7',
@@ -49,7 +49,7 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
     const { data: existingUser, error: fetchError } = await supabaseClient
         .from('User')
         .select('*')
-        .eq('email', email)
+        .eq('email', registerEmail.value);
 
     if (fetchError) {
         console.error('Error fetching user:', fetchError);
