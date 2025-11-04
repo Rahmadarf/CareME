@@ -26,13 +26,8 @@ const telepon = document.getElementById('phone');
 const username = document.getElementById('username');
 
 document.getElementById('registerBtn').addEventListener('click', async () => {
-    const email = registerEmail.value;
-    const password = registerPassword.value;
-    const confirmPassword = passwordConfirm.value;
-    const phone = telepon.value;
-    const user = username.value;
 
-    if (email === '' || password === '' || phone === '' || user === '') {
+    if (registerEmail.value === '' || registerPassword.value === '' || telepon.value === '' || username.value === '') {
         Swal.fire({
             icon: 'error',
             confirmButtonColor: '#00C9A7',
