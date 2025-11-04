@@ -33,9 +33,8 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
             confirmButtonColor: '#00C9A7',
             title: 'Gagal Register',
             text: 'Silahkan Lengkapi Data Terlebih Dahulu',
-        }).then(() => {
-            return;
         });
+        return;
     } else if (registerPassword.value !== passwordConfirm.value) {
         Swal.fire({
             icon: 'error',
