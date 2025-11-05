@@ -13,34 +13,39 @@
 </head>
 
 <body>
-    <aside class="h-full w-69 bg-white shadow-2xl fixed">
+    <aside class="h-full w-69 bg-gray fixed m-5 rounded-xl mb-5 border-outline">
         <!--Header-->
         <div class="m-7 mb-10 flex items-center gap-3">
             <img src="/img/Vector.png" alt="CareME Logo" class="w-[51px] h-[46px]">
             <h3 class="text-3xl font-extrabold font-poppins text-main">CareME</h3>
         </div>
 
-        <div class="mb-15 m-5">
-            <h3 class="text-[15px] font-montserrat font-semibold text-gray-400 mb-[29px]">Menu</h3>
-            <ul class="font-montserrat font-semibold gap-y-[29px] cursor-pointer">
-                <li class="mb-[29px] flex gap-x-2 items-center mr-20 border-0 hover:border w-full"><img src="img/dashboard.svg" class="" alt="">
-                    Dashboard</li>
-                <li class="mb-[29px] flex gap-x-2 items-center"><img src="img/pasien.svg" alt=""> Daftar Pasien
-                </li>
-                <li class="mb-[29px] flex gap-x-2 items-center"><img src="img/doctor.svg" class="w-8" alt="">
-                    Daftar Dokter</li>
-                <li class="mb-[29px] flex gap-x-2 items-center"><img src="img/user-nurse-solid-full.svg" class="w-8" alt=""> Daftar
-                    Perawat</li>
-            </ul>
+        <div>
+            <div class="mb-15 m-5 ">
+                <h3 class="text-[15px] font-montserrat font-semibold text-gray-600 mb-[29px]">MENU</h3>
+                <ul class="font-montserrat font-semibold gap-y-[29px] cursor-pointer">
+                    <li class="mb-[29px] flex gap-x-2 items-center mr-20 "><img
+                            src="img/layout-grid.svg" class="w-6" alt="">
+                        Dashboard</li>
+                    <li class="mb-[29px] flex gap-x-2 items-center"><img src="img/thermometer.svg" class="w-6" alt="">
+                        Pasien
+                    </li>
+                    <li class="mb-[29px] flex gap-x-2 items-center"><img src="img/stethoscope.svg" class="w-6" alt="">
+                        Dokter</li>
+                    <li class="mb-[29px] flex gap-x-2 items-center"><img src="img/bandage.svg" class="w-6"
+                            alt="">Perawat</li>
+                </ul>
+            </div>
+
+            <div class="m-7">
+                <h3 class="text-[15px] font-montserrat font-semibold text-gray-400 mb-[29px]">General</h3>
+                <ul class="font-montserrat font-semibold gap-y-[29px] cursor-pointer">
+                    <li class="mb-[29px]" icon="mage--dashboard">Settings</li>
+                    <li id="out" class="mb-[29px]">Log Out</li>
+                </ul>
+            </div>
         </div>
 
-        <div class="m-7">
-            <h3 class="text-[15px] font-montserrat font-semibold text-gray-400 mb-[29px]">General</h3>
-            <ul class="font-montserrat font-semibold gap-y-[29px] cursor-pointer">
-                <li class="mb-[29px]" icon="mage--dashboard">Settings</li>
-                <li id="out" class="mb-[29px]">Log Out</li>
-            </ul>
-        </div>
     </aside>
 
     <script type="module" src="index.js"></script>

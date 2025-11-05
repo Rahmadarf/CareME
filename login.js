@@ -39,7 +39,7 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
     const { data: existingUser, error: fetchError } = await supabaseClient
         .from('User')
         .select('*')
-        .eq('email', email.value)
+        .or(`email.eq.${email.value},nama_lengkap.eq.${email.value}`)
         .maybeSingle();
 
     if (fetchError) {
@@ -57,7 +57,7 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
         Swal.fire({
             icon: 'info',
             confirmButtonColor: '#00C9A7',
-            title: 'Email Belum Terdaftar',
+            title: 'Email atau Username  Belum Terdaftar',
             text: 'Silahkan Daftar Terlebih Dahulu',
         });
         return;
