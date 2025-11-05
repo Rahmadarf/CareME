@@ -106,7 +106,8 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
         .from('User')
         .insert([
             { email: email.value, password: password.value, no_telepon: phone.value, nama_lengkap: user.value },
-        ]);
+        ])
+        .select();
 
     if (error) {
         console.error('Error inserting user:', error);
@@ -118,21 +119,20 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
         });
         return;
     } else {
-        console.log('User registered:', data);
         Swal.fire({
             icon: 'success',
             confirmButtonColor: '#00C9A7',
             title: 'Berhasil Register',
-            text: `Selamat Datang ${existingUser.nama_lengkap}`,
+            text: `Selamat Datang ${user.value}`,
         }).then(() => {
-            localStorage.setItem('sessionUser', JSON.stringify(existingUser))
-            window.location.href = 'index.html';
+            localStorage.setItem('sessionUser', JSON.stringify(data[0]));
+            window.location.href = 'patient.html';
             document.getElementById("email").value = '';
             document.getElementById("password").value = '';
             document.getElementById("phone").value = '';
             document.getElementById("user").value = '';
         });
-
+        return;
     }
 });
 

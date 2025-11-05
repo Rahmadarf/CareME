@@ -40,7 +40,8 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
         .from('User')
         .select('*')
         .or(`email.eq.${email.value},nama_lengkap.eq.${email.value}`)
-        .maybeSingle();
+        .limit(1)
+        .single();
 
     if (fetchError) {
         console.error('Error fetching user:', fetchError);
