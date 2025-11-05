@@ -28,6 +28,7 @@ const password = document.getElementById('registerPassword');
 const passwordConfirm = document.getElementById('passwordConfirm');
 const phone = document.getElementById('phone');
 const user = document.getElementById('username');
+const hashPassword = bcrypt.hashSync(password.value, 10);
 
 document.getElementById('registerBtn').addEventListener('click', async () => {
 
@@ -105,7 +106,7 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
     const { data, error } = await supabaseClient
         .from('User')
         .insert([
-            { email: email.value, password: password.value, no_telepon: phone.value, nama_lengkap: user.value },
+            { email: email.value, password: hashPassword, no_telepon: phone.value, nama_lengkap: user.value },
         ])
         .select();
 
