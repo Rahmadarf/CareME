@@ -72,14 +72,22 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
         });
         return;
     } else {
+        localStorage.setItem('sessionUser', JSON.stringify(existingUser));
         Swal.fire({
             icon: 'success',
             confirmButtonColor: '#00C9A7',
             title: 'Berhasil Login',
             text: `Selamat Datang Kembali ${existingUser.nama_lengkap}`,
         }).then(() => {
-            localStorage.setItem('sessionUser', JSON.stringify(existingUser));
-            window.location.href = 'index.html';
+            if (existingUser.role === 'pasien') {
+                window.location.href = 'patient.html';
+            } else if (existingUser.role === 'dokter') {
+                window.location.href = 'doctor.html';
+            } else if (existingUser.role === 'perawat') {
+                window.location.href = 'nurse.html';
+            } else if (existingUser.role === 'admin') {
+                window.location.href = 'index.html';
+            }
             document.getElementById("email").value = '';
             document.getElementById("password").value = '';
         });

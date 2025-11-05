@@ -75,6 +75,33 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
         return
     }
 
+
+    const { data: existingPhone, error: fetchPhoneError } = await supabaseClient
+        .from('User')
+        .select('*')
+        .eq('no_telepon', phone.value);
+
+    if (fetchPhoneError) {
+        console.error('Error fetching phone:', fetchPhoneError);
+        Swal.fire({
+            icon: 'warning',
+            confirmButtonColor: '#00C9A7',
+            title: 'Error',
+            text: 'Terjadi kesalahan saat memeriksa nomor telepon.',
+        });
+        return;
+    }
+
+    if (existingPhone && existingPhone.length > 0) {
+        Swal.fire({
+            icon: 'info',
+            confirmButtonColor: '#00C9A7',
+            title: 'Nomor Telepon Sudah Terdaftar',
+            text: 'Silahkan Gunakan Nomor Telepon Lain',
+        });
+        return;
+    }
+
     const { data, error } = await supabaseClient
         .from('User')
         .insert([

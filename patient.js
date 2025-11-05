@@ -34,17 +34,9 @@ document.getElementById('out').addEventListener('click', () => {
     });
 })
 
-if (!localStorage.getItem('sessionUser')) {
-    window.location.href = 'login.html';
-}
-
 const user = JSON.parse(localStorage.getItem('sessionUser'));
 document.getElementById('usernameDisplay').innerText = user.nama_lengkap;
 
-if (user.role === 'pasien') {
-    window.location.href = 'patient.html';
-} else if (user.role === 'dokter') {
-    window.location.href = 'doctor.html';
-} else if (user.role === 'perawat') {
-    window.location.href = 'nurse.html';
+if (!localStorage.getItem('sessionUser')) {
+    window.location.href = 'login.html';
 }
