@@ -48,3 +48,15 @@ if (user.role === 'pasien') {
 } else if (user.role === 'perawat') {
     window.location.href = 'nurse.html';
 }
+
+const pageId = 'users';
+
+window.showPage = function(pageId) {
+    document.querySelectorAll('.page').forEach(div => div.classList.add('hidden'));
+    document.getElementById(pageId).classList.remove('hidden');
+    
+}
+
+const { data: users, error } = await supabaseClient
+    .from('User')
+    .select('*');

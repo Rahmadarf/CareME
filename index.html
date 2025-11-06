@@ -14,8 +14,8 @@
 
 </head>
 
-<body>
-    <aside class="h-full w-69 bg-gray fixed m-5 rounded-xl mb-5 border-outline">
+<body class="flex">
+    <aside class="h-full w-69 bg-gray m-5 rounded-xl mb-5 border-outline">
         <!--Header-->
         <div class="m-7 mb-10 flex items-center gap-3">
             <img src="/img/Vector.png" alt="CareME Logo" class="w-[51px] h-[46px]">
@@ -26,24 +26,29 @@
             <div class="mb-15 m-5 ">
                 <h3 class="text-[12px] font-montserrat font-extrabold text-gray-600 mb-[29px]">MENU</h3>
                 <ul class="font-montserrat font-semibold gap-y-[29px] cursor-pointer">
-                    <li class="mb-[29px] flex gap-x-2 items-center mr-20 "><img src="img/layout-grid.svg" class="w-6"
-                            alt="">
+                    <li onclick="showPage('dashboard')" class="mb-[29px] flex gap-x-2 items-center mr-20 "><img
+                            src="img/layout-grid.svg" class="w-6" alt="">
                         Dashboard</li>
-                    <li class="mb-[29px] flex gap-x-2 items-center"><img src="img/thermometer.svg" class="w-6" alt="">
+                    <li onclick="showPage('users')" class="mb-[29px] flex gap-x-2 items-center mr-20 "><img
+                            src="img/users.svg" class="w-6" alt="">
+                        Pengguna</li>
+                    <li onclick="showPage('patients')" class="mb-[29px] flex gap-x-2 items-center"><img
+                            src="img/thermometer.svg" class="w-6" alt="">
                         Pasien
                     </li>
-                    <li class="mb-[29px] flex gap-x-2 items-center"><img src="img/stethoscope.svg" class="w-6" alt="">
+                    <li onclick="showPage('doctors')" class="mb-[29px] flex gap-x-2 items-center"><img
+                            src="img/stethoscope.svg" class="w-6" alt="">
                         Dokter</li>
-                    <li class="mb-[29px] flex gap-x-2 items-center"><img src="img/bandage.svg" class="w-6"
-                            alt="">Perawat</li>
+                    <li onclick="showPage('nurses')" class="mb-[29px] flex gap-x-2 items-center"><img
+                            src="img/bandage.svg" class="w-6" alt="">Perawat</li>
                 </ul>
             </div>
 
             <div class="m-7">
                 <h3 class="text-[12px] font-montserrat font-extrabold text-gray-600 mb-[29px]">GENERAL</h3>
                 <ul class="font-montserrat font-semibold gap-y-[29px] cursor-pointer">
-                    <li class="mb-[29px] flex gap-x-2 items-center"><img src="img/settings.svg" class="w-6"
-                            alt="">Pengaturan</li>
+                    <li onclick="showPage('settings')" class="mb-[29px] flex gap-x-2 items-center"><img
+                            src="img/settings.svg" class="w-6" alt="">Pengaturan</li>
                     <li id="out" class="mb-[29px] flex gap-x-2 items-center"><img src="img/log-out.svg" class="w-6"
                             alt="">Keluar</li>
                 </ul>
@@ -53,6 +58,57 @@
         </div>
 
     </aside>
+
+
+    <main class="flex-1 p-8 overflow-y-auto bg-white rounded-xl m-5 mb-5 shadow-xl">
+        <div id="dashboard" class="m-5 page hidden">Dashboard</div>
+        <div id="users" class="m-5 page">
+            <div class="flex justify-between mb-30">
+                <h3 class="cursor-pointer text-6xl text-main-gray font-poppins font-medium">Users</h3>
+                <div class="flex items-center gap-3 p-5 bg-main rounded-xl cursor-pointer">
+                    <img src="img/user-plus.svg" alt="">
+                    <h3 class="font-montserrat text-10 font-semibold">Tambah User</h3>
+                </div>
+            </div>
+
+            <div>
+                <div class="border-light-gray border rounded-b-none p-10 rounded-xl flex items-center justify-between">
+                    <h3 class="cursor-pointer text-4xl text-main-gray font-poppins font-medium">User</h3>
+                    <div class="flex items-center border-light-gray border rounded-lg px-4 py-2 gap-3">
+                        <img src="img/search.svg" alt="">
+                        <input type="text" placeholder="Search User"
+                            class="outline-none h-10 font-montserrat font-medium text-main-gray">
+                    </div>
+                </div>
+
+                <div>
+                    <table class="w-full border-light-gray border rounded-t-none rounded-b-lg">
+                        <thead class="bg-gray text-left">
+                            <tr>
+                                <th class="p-5 font-montserrat font-semibold text-main-gray">No</th>
+                                <th class="p-5 font-montserrat font-semibold text-main-gray">Nama</th>
+                                <th class="p-5 font-montserrat font-semibold text-main-gray">Email</th>
+                                <th class="p-5 font-montserrat font-semibold text-main-gray">Status</th>
+                                <th class="p-3 font-montserrat font-semibold text-main-gray">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-light-gray">
+                                <td class="p-5 font-montserrat font-medium text-main-gray">1</td>
+                                <td class="p-5 font-montserrat font-medium text-main-gray">John Doe</td>
+                                <td class="p-5 font-montserrat font-medium text-main-gray"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div id="patients" class="m-5 page hidden">Pasien</div>
+        <div id="doctors" class="m-5 page hidden">Dokter</div>
+        <div id="nurses" class="m-5 page hidden">Perawat</div>
+        <div id="settings" class="m-5 page hidden">Settings</div>
+    </main>
 
     <script type="module" src="index.js"></script>
 </body>

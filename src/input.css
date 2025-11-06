@@ -6,6 +6,8 @@
     --color-outline: #969494;
     --color-main: #00C9A7;
     --color-gray: #F3F3F3;
+    --color-main-gray: #6D6B6B;
+    --color-light-gray: #D6D6D6;
 }
 
 @theme {
