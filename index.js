@@ -51,12 +51,135 @@ if (user.role === 'pasien') {
 
 const pageId = 'users';
 
-window.showPage = function(pageId) {
+window.showPage = function (pageId) {
     document.querySelectorAll('.page').forEach(div => div.classList.add('hidden'));
     document.getElementById(pageId).classList.remove('hidden');
-    
+
 }
 
 const { data: users, error } = await supabaseClient
     .from('User')
     .select('*');
+
+
+document.getElementById('addUser').addEventListener('click', () => {
+    document.getElementById('addUserModal').classList.remove('hidden')
+    document.getElementById('close').addEventListener('click', () => {
+        document.getElementById('addUserModal').classList.add('hidden')
+    })
+})
+
+
+//addUser
+const email = document.getElementById('addEmail');
+const password = document.getElementById('addPassword');
+const passwordConfirm = document.getElementById('addPasswordConfirm');
+const phone = document.getElementById('addPhone');
+const username = document.getElementById('addUsername');
+
+document.getElementById('addUserBtn').addEventListener('click', async () => {
+
+    if (email.value === '' || password.value === '' || phone.value === '' || username.value === '') {
+        Swal.fire({
+            icon: 'error',
+            confirmButtonColor: '#00C9A7',
+            title: 'Gagal Register',
+            text: 'Silahkan Lengkapi Data Terlebih Dahulu',
+        });
+        return;
+    } else if (password.value !== passwordConfirm.value) {
+        Swal.fire({
+            icon: 'error',
+            confirmButtonColor: '#00C9A7',
+            title: 'Gagal Register',
+            text: 'Password dan Konfirmasi Password Tidak Sesuai',
+        });
+        return;
+    }
+
+    const { data: existingUser, error: fetchError } = await supabaseClient
+        .from('User')
+        .select('*')
+        .eq('email', email.value);
+
+    if (fetchError) {
+        console.error('Error fetching user:', fetchError);
+        Swal.fire({
+            icon: 'warning',
+            confirmButtonColor: '#00C9A7',
+            title: 'Error',
+            text: 'Terjadi kesalahan saat memeriksa pengguna.',
+        });
+        return;
+    }
+
+    if (existingUser && existingUser.length > 0) {
+        Swal.fire({
+            icon: 'info',
+            confirmButtonColor: '#00C9A7',
+            title: 'Email Sudah Terdaftar',
+            text: 'Silahkan Gunakan Email Lain',
+        });
+        return
+    }
+
+
+    const { data: existingPhone, error: fetchPhoneError } = await supabaseClient
+        .from('User')
+        .select('*')
+        .eq('no_telepon', phone.value);
+
+    if (fetchPhoneError) {
+        console.error('Error fetching phone:', fetchPhoneError);
+        Swal.fire({
+            icon: 'warning',
+            confirmButtonColor: '#00C9A7',
+            title: 'Error',
+            text: 'Terjadi kesalahan saat memeriksa nomor telepon.',
+        });
+        return;
+    }
+
+    if (existingPhone && existingPhone.length > 0) {
+        Swal.fire({
+            icon: 'info',
+            confirmButtonColor: '#00C9A7',
+            title: 'Nomor Telepon Sudah Terdaftar',
+            text: 'Silahkan Gunakan Nomor Telepon Lain',
+        });
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from('User')
+        .insert([
+            { email: email.value, password: password.value, no_telepon: phone.value, nama_lengkap: username.value },
+        ])
+        .select();
+
+    if (error) {
+        console.error('Error inserting user:', error);
+        Swal.fire({
+            icon: 'error',
+            confirmButtonColor: '#00C9A7',
+            title: 'Gagal Register',
+            text: 'Terjadi kesalahan saat menambahkan.',
+        });
+        return;
+    } else {
+        Swal.fire({
+            icon: 'success',
+            confirmButtonColor: '#00C9A7',
+            title: 'Berhasil Menambahkan',
+            text: `Menambah ${username.value}`,
+        }).then(() => {
+            document.getElementById('addUserModal').classList.add('hidden')
+            email.value = ''
+            password.value = ''
+            passwordConfirm.value = ''
+            phone = ''
+            username = ''
+        });
+        return;
+    }
+});

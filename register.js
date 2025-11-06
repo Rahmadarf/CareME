@@ -23,12 +23,12 @@ if (localStorage.getItem('sessionUser')) {
 
 
 //Register Page
+
 const email = document.getElementById('registerEmail');
 const password = document.getElementById('registerPassword');
 const passwordConfirm = document.getElementById('passwordConfirm');
 const phone = document.getElementById('phone');
 const user = document.getElementById('username');
-const hashPassword = bcrypt.hashSync(password.value, 10);
 
 document.getElementById('registerBtn').addEventListener('click', async () => {
 
@@ -40,7 +40,7 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
             text: 'Silahkan Lengkapi Data Terlebih Dahulu',
         });
         return;
-    } else if (registerPassword.value !== passwordConfirm.value) {
+    } else if (password.value !== passwordConfirm.value) {
         Swal.fire({
             icon: 'error',
             confirmButtonColor: '#00C9A7',
@@ -136,6 +136,9 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
         return;
     }
 });
+
+
+
 
 
 //Navigation to Login Page

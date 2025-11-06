@@ -65,10 +65,11 @@
         <div id="users" class="m-5 page">
             <div class="flex justify-between mb-30">
                 <h3 class="cursor-pointer text-6xl text-main-gray font-poppins font-medium">Users</h3>
-                <div class="flex items-center gap-3 p-5 bg-main rounded-xl cursor-pointer">
+                <button type="button" id="addUser"
+                    class="bg-main p-5 flex items-center gap-x-3 rounded-lg cursor-pointer duration-300">
                     <img src="img/user-plus.svg" alt="">
                     <h3 class="font-montserrat text-10 font-semibold">Tambah User</h3>
-                </div>
+                </button>
             </div>
 
             <div>
@@ -108,7 +109,56 @@
         <div id="doctors" class="m-5 page hidden">Dokter</div>
         <div id="nurses" class="m-5 page hidden">Perawat</div>
         <div id="settings" class="m-5 page hidden">Settings</div>
+
+
+
     </main>
+
+
+    <div id="addUserModal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+        <div class="bg-white w-100 h-130 opacity-100 rounded-lg shadow-2xl p-5">
+            <h3 class="p-3 font-montserrat text-3xl font-semibold mb-8">Tambah User</h3>
+            <div>
+                <div class="flex gap-x-5">
+                    <div>
+                        <label for="addUsername" class="font-montserrat font-medium">Nama Lengkap</label>
+                        <input id="addUsername" type="text" placeholder="John bin Jono"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                    </div>
+                    <div>
+                        <label for="addPhone" class="font-montserrat font-medium">No. Telepon</label>
+                        <input id="addPhone" type="tel" placeholder="John bin Jono"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="flex gap-x-5">
+                    <div class="w-full">
+                        <label for="addEmail" class="font-montserrat font-medium">Email</label>
+                        <input id="addEmail" type="email" placeholder="john@email.com"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="flex gap-x-5">
+                    <div>
+                        <label for="addPassword" class="font-montserrat font-medium">Password</label>
+                        <input id="addPassword" type="password" placeholder="Masukan Password"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                    </div>
+                    <div>
+                        <label for="addPasswordConfirm" class="font-montserrat font-medium">Konfirmasi Password</label>
+                        <input id="addPasswordConfirm" type="password" placeholder="Konfirmasi Password"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-x-6 justify-end">
+                <button id="close" class="bg-gray px-6 rounded-lg cursor-pointer">Batal</button>
+                <button id="addUserBtn" class="bg-main py-3 px-6 rounded-lg cursor-pointer">Tambah</button>
+            </div>
+        </div>
+    </div>
 
     <script type="module" src="index.js"></script>
 </body>
