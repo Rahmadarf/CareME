@@ -106,7 +106,7 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
     const { data, error } = await supabaseClient
         .from('User')
         .insert([
-            { email: email.value, password: hashPassword, no_telepon: phone.value, nama_lengkap: user.value },
+            { email: email.value, password: password.value, no_telepon: phone.value, nama_lengkap: username.value },
         ])
         .select();
 

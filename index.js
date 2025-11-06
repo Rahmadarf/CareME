@@ -65,6 +65,11 @@ const { data: users, error } = await supabaseClient
 document.getElementById('addUser').addEventListener('click', () => {
     document.getElementById('addUserModal').classList.remove('hidden')
     document.getElementById('close').addEventListener('click', () => {
+        email.value = ''
+        password.value = ''
+        passwordConfirm.value = ''
+        phone.value = ''
+        username.value = ''
         document.getElementById('addUserModal').classList.add('hidden')
     })
 })
