@@ -63,7 +63,7 @@
     <main class="flex-1 p-8 overflow-y-auto bg-white rounded-xl m-5 mb-5 shadow-xl">
         <div id="dashboard" class="m-5 page hidden">Dashboard</div>
         <div id="users" class="m-5 page">
-            <div class="flex justify-between mb-30">
+            <div class="flex justify-between mb-25">
                 <h3 class="cursor-pointer text-6xl text-main-gray font-poppins font-medium">Users</h3>
                 <button type="button" id="addUser"
                     class="bg-main p-5 flex items-center gap-x-3 rounded-lg cursor-pointer duration-300">
@@ -73,7 +73,7 @@
             </div>
 
             <div>
-                <div class="border-light-gray border rounded-b-none p-10 rounded-xl flex items-center justify-between">
+                <div class="border-light-gray border rounded-b-none p-5 rounded-xl flex items-center justify-between">
                     <h3 class="cursor-pointer text-4xl text-main-gray font-poppins font-medium">User</h3>
                     <div class="flex items-center border-light-gray border rounded-lg px-4 py-2 gap-3">
                         <img src="img/search.svg" alt="">
@@ -93,14 +93,22 @@
                                 <th class="p-3 font-montserrat font-semibold text-main-gray">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="border-t border-light-gray">
-                                <td class="p-5 font-montserrat font-medium text-main-gray">1</td>
-                                <td class="p-5 font-montserrat font-medium text-main-gray">John Doe</td>
-                                <td class="p-5 font-montserrat font-medium text-main-gray"></td>
-                            </tr>
+                        <tbody id="usersTable">
+
                         </tbody>
                     </table>
+
+                    <div class="flex justify-center items-center gap-3 mt-5">
+                        <button type="button" id="prevPage"
+                            class=" flex bg-gray px-4 py-2 border border-light-gray rounded-sm cursor-pointer"><img
+                                src="img/chevron-left.svg" alt=""> Sebelumnya</button>
+                        <span id="pageInfo" class="text-main-gray">1</span>
+                        <button type="button" id="nextPage"
+                            class="bg-gray px-4 py-2 border border-light-gray flex rounded-sm cursor-pointer">Selanjutnya
+                            <img src="img/chevron-right.svg" alt=""></button>
+                    </div>
+
+
                 </div>
             </div>
 
@@ -115,7 +123,8 @@
     </main>
 
 
-    <div id="addUserModal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+
+    <!-- <div id="addUserModal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
         <div class="bg-white w-100 h-130 opacity-100 rounded-lg shadow-2xl p-5">
             <h3 class="p-3 font-montserrat text-3xl font-semibold mb-8">Tambah User</h3>
             <div>
@@ -157,7 +166,7 @@
                 <button id="close" class="bg-gray px-6 rounded-lg cursor-pointer">Batal</button>
                 <button id="addUserBtn" class="bg-main py-3 px-6 rounded-lg cursor-pointer">Tambah</button>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <script type="module" src="index.js"></script>

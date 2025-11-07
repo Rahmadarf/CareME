@@ -36,12 +36,15 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
         return;
     }
 
+    const inputValue = encodeURIComponent(email.value);
+
+
     const { data: existingUser, error: fetchError } = await supabaseClient
         .from('User')
         .select('*')
-        .or(`email.eq.${email.value},nama_lengkap.eq.${email.value}`)
+        .or(`email.eq.${inputValue},nama_lengkap.eq.${inputValue}`)
         .limit(1)
-        .single();
+        .maybeSingle();
 
     if (fetchError) {
         console.error('Error fetching user:', fetchError);

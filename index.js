@@ -1,3 +1,4 @@
+
 const { createClient } = supabase;
 
 const supabaseUrl = 'https://qthrogwxjppfovcelwyh.supabase.co';
@@ -49,142 +50,393 @@ if (user.role === 'pasien') {
     window.location.href = 'nurse.html';
 }
 
-const pageId = 'users';
-
 window.showPage = function (pageId) {
     document.querySelectorAll('.page').forEach(div => div.classList.add('hidden'));
     document.getElementById(pageId).classList.remove('hidden');
+    if (pageId == 'users') {
+    }
 
 }
 
-const { data: users, error } = await supabaseClient
-    .from('User')
-    .select('*');
-
-
-document.getElementById('addUser').addEventListener('click', () => {
-    document.getElementById('addUserModal').classList.remove('hidden')
-    document.getElementById('close').addEventListener('click', () => {
-        email.value = ''
-        password.value = ''
-        passwordConfirm.value = ''
-        phone.value = ''
-        username.value = ''
-        document.getElementById('addUserModal').classList.add('hidden')
-    })
-})
-
-
-//addUser
 const email = document.getElementById('addEmail');
 const password = document.getElementById('addPassword');
 const passwordConfirm = document.getElementById('addPasswordConfirm');
 const phone = document.getElementById('addPhone');
 const username = document.getElementById('addUsername');
 
-document.getElementById('addUserBtn').addEventListener('click', async () => {
 
-    if (email.value === '' || password.value === '' || phone.value === '' || username.value === '') {
-        Swal.fire({
-            icon: 'error',
-            confirmButtonColor: '#00C9A7',
-            title: 'Gagal Register',
-            text: 'Silahkan Lengkapi Data Terlebih Dahulu',
-        });
-        return;
-    } else if (password.value !== passwordConfirm.value) {
-        Swal.fire({
-            icon: 'error',
-            confirmButtonColor: '#00C9A7',
-            title: 'Gagal Register',
-            text: 'Password dan Konfirmasi Password Tidak Sesuai',
-        });
-        return;
-    }
+//addUser
+document.getElementById('addUser').addEventListener('click', async () => {
+    const { value: formValues } = await Swal.fire({
+        title: "Tambah Pengguna Baru",
+        html: `
+            <div>
+                <div class="flex gap-x-5">
+                    <div>
+                        <label for="addUsername" class="font-montserrat font-medium">Nama Lengkap</label>
+                        <input id="addUsername" type="text" placeholder="John bin Jono"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                    </div>
+                    <div>
+                        <label for="addPhone" class="font-montserrat font-medium">No. Telepon</label>
+                        <input id="addPhone" type="tel" placeholder="08123456789"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                    </div>
+                </div>
 
-    const { data: existingUser, error: fetchError } = await supabaseClient
-        .from('User')
-        .select('*')
-        .eq('email', email.value);
+                <div class="flex gap-x-5">
+                    <div class="w-full">
+                        <label for="addEmail" class="font-montserrat font-medium">Email</label>
+                        <input id="addEmail" type="email" required placeholder="john@email.com"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                    </div>
+                </div>
 
-    if (fetchError) {
-        console.error('Error fetching user:', fetchError);
-        Swal.fire({
-            icon: 'warning',
-            confirmButtonColor: '#00C9A7',
-            title: 'Error',
-            text: 'Terjadi kesalahan saat memeriksa pengguna.',
-        });
-        return;
-    }
+                <div class="flex gap-x-5">
+                    <div>
+                        <label for="addPassword" class="font-montserrat font-medium">Password</label>
+                        <input id="addPassword" type="password" placeholder="Masukan Password"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                    </div>
+                    <div>
+                        <label for="addPasswordConfirm" class="font-montserrat font-medium">Konfirmasi Password</label>
+                        <input id="addPasswordConfirm" type="password" placeholder="Konfirmasi Password"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none">
+                    </div>
+                </div>
 
-    if (existingUser && existingUser.length > 0) {
-        Swal.fire({
-            icon: 'info',
-            confirmButtonColor: '#00C9A7',
-            title: 'Email Sudah Terdaftar',
-            text: 'Silahkan Gunakan Email Lain',
-        });
-        return
-    }
+                <select name="role" id="addRole" class='bg-gray py-3 px-5 rounded-lg'>
+                    <option value="" selected disabled>Pilih Role User</option>
+                    <option value="pasien">Pasien</option>
+                    <option value="perawat">Perawat</option>
+                    <option value="dokter">Dokter</option>
+                </select>
+            </div>`,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'Tambahkan',
+        confirmButtonColor: '#00C9A7',
 
+        preConfirm: async () => {
+            const username = document.getElementById("addUsername").value.trim();
+            const phone = document.getElementById("addPhone").value.trim();
+            const email = document.getElementById("addEmail").value.trim();
+            const password = document.getElementById("addPassword").value;
+            const passwordConfirm = document.getElementById("addPasswordConfirm").value;
+            const selectRole = document.getElementById('addRole').value
 
-    const { data: existingPhone, error: fetchPhoneError } = await supabaseClient
-        .from('User')
-        .select('*')
-        .eq('no_telepon', phone.value);
+            if (!username || !phone || !email || !password || !passwordConfirm) {
+                Swal.showValidationMessage(`Harap lengkapi semua data!`);
+                return false;
+            }
+            if (password !== passwordConfirm) {
+                Swal.showValidationMessage(`Password dan konfirmasi tidak cocok!`);
+                return false;
+            }
+            if (!email.includes('@')) {
+                Swal.showValidationMessage('Pastikan menggunakan email yang valid')
+            }
 
-    if (fetchPhoneError) {
-        console.error('Error fetching phone:', fetchPhoneError);
-        Swal.fire({
-            icon: 'warning',
-            confirmButtonColor: '#00C9A7',
-            title: 'Error',
-            text: 'Terjadi kesalahan saat memeriksa nomor telepon.',
-        });
-        return;
-    }
+            // 🔍 Cek email
+            const { data: existingUser, error: fetchError } = await supabaseClient
+                .from('User')
+                .select('*')
+                .eq('email', email);
 
-    if (existingPhone && existingPhone.length > 0) {
-        Swal.fire({
-            icon: 'info',
-            confirmButtonColor: '#00C9A7',
-            title: 'Nomor Telepon Sudah Terdaftar',
-            text: 'Silahkan Gunakan Nomor Telepon Lain',
-        });
-        return;
-    }
+            if (fetchError) {
+                Swal.showValidationMessage('Gagal memeriksa email!');
+                return false;
+            }
 
+            if (existingUser && existingUser.length > 0) {
+                Swal.showValidationMessage('Email sudah digunakan, gunakan email lain!');
+                return false;
+            }
+
+            // 🔍 Cek nomor telepon
+            const { data: existingPhone, error: fetchPhoneError } = await supabaseClient
+                .from('User')
+                .select('*')
+                .eq('no_telepon', phone);
+
+            if (fetchPhoneError) {
+                Swal.showValidationMessage('Gagal memeriksa nomor telepon!');
+                return false;
+            }
+
+            if (existingPhone && existingPhone.length > 0) {
+                Swal.showValidationMessage('Nomor telepon sudah digunakan!');
+                return false;
+            }
+
+            // Jika semua aman, return data
+            return { username, phone, email, password, selectRole };
+        }
+    });
+
+    if (!formValues) return;
+
+    const { username, phone, email, password, selectRole } = formValues;
+
+    // ✅ Insert user baru
     const { data, error } = await supabaseClient
         .from('User')
         .insert([
-            { email: email.value, password: password.value, no_telepon: phone.value, nama_lengkap: username.value },
+            { nama_lengkap: username, no_telepon: phone, email: email, password: password, role: selectRole }
         ])
         .select();
 
     if (error) {
-        console.error('Error inserting user:', error);
         Swal.fire({
             icon: 'error',
             confirmButtonColor: '#00C9A7',
-            title: 'Gagal Register',
-            text: 'Terjadi kesalahan saat menambahkan.',
-        });
-        return;
-    } else {
-        Swal.fire({
-            icon: 'success',
-            confirmButtonColor: '#00C9A7',
-            title: 'Berhasil Menambahkan',
-            text: `Menambah ${username.value}`,
-        }).then(() => {
-            document.getElementById('addUserModal').classList.add('hidden')
-            email.value = ''
-            password.value = ''
-            passwordConfirm.value = ''
-            phone = ''
-            username = ''
+            title: 'Gagal Menambahkan',
+            text: 'Terjadi kesalahan saat menyimpan data.',
         });
         return;
     }
+
+    Swal.fire({
+        icon: 'success',
+        confirmButtonColor: '#00C9A7',
+        title: 'Berhasil Menambahkan!',
+        text: `Pengguna ${username} berhasil ditambahkan.`,
+    });
+
+    loadUsers(currentPage);
 });
+
+
+
+let currentPage = 1
+const limit = 5
+let totalData = 0
+
+async function loadUsers(page = 1) {
+    const tableUsers = document.getElementById('usersTable')
+
+    const start = (page - 1) * limit
+    const end = start + limit - 1
+
+    const { data, error, count } = await supabaseClient
+        .from('User')
+        .select('*', { count: 'exact' })
+        .range(start, end)
+        .neq('role', 'admin')
+
+    if (error) {
+        console.error('Gagal menampilkan users:', error)
+        tableUsers.innerHTML = `<tr><td colspan="5" class="p-3">Gagal memuat data</td></tr>`
+    }
+
+    totalData = count
+
+    tableUsers.innerHTML = ''
+
+    data.forEach((user, index) => {
+        const row = `
+            <tr class="border-t border-light-gray">
+                <td class="p-3 font-montserrat font-medium text-main-gray">${start + index + 1}</td>
+                <td class="p-3 font-montserrat font-medium text-main-gray">${user.nama_lengkap}</td>
+                <td class="p-3 font-montserrat font-medium text-main-gray">${user.email}</td>
+                <td class="p-3 font-montserrat font-medium text-main-gray">${user.role}</td>
+                <td class="p-3 font-montserrat font-medium text-main-gray">
+                    <button class="bg-blue-600 py-2 px-4 rounded-lg cursor-pointer" onclick="editUser('${user.id}')"><img src="/img/square-pen.svg"></button>
+                    <button class="bg-red-500 py-2 px-4 rounded-lg cursor-pointer" onclick="deleteUser('${user.id}')"><img src="/img/trash-2.svg"></button>
+                </td>
+            </tr>`
+
+
+        tableUsers.insertAdjacentHTML('beforeend', row)
+    })
+
+    const pageInfo = document.getElementById('pageInfo')
+    const totalPage = Math.ceil(totalData / limit)
+    pageInfo.innerHTML = page
+
+    if (!data || data.length === 0) {
+        tableUsers.innerHTML = `<tr><td colspan="5" class="p-3">Tidak ada data pengguna</td></tr>`
+        totalData = count || 0
+        document.getElementById('prevPage').disabled = page === 1
+        document.getElementById('nextPage').disabled = page >= totalPage
+    }
+
+
+
+
+}
+
+window.deleteUser = async (id) => {
+    console.log(`Bersiap menghapus user dengan id ${id}`)
+
+    const result = await Swal.fire({
+        title: 'Hapus Pengguna?',
+        text: 'Data pengguna akan dihapus permanen.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Hapus',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#e53e3e'
+    });
+
+    if (!result.isConfirmed) return;
+
+    const { error } = await supabaseClient
+        .from('User')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Tidak dapat menghapus pengguna.',
+            confirmButtonColor: '#00C9A7'
+        });
+        return;
+    }
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Terhapus',
+        text: 'Pengguna berhasil dihapus.',
+        confirmButtonColor: '#00C9A7'
+    });
+
+    loadUsers(currentPage);
+}
+
+
+//edit
+window.editUser = async (id) => {
+    console.log(`Edit User dengan id ${id}`)
+
+    const { data, error } = await supabaseClient
+        .from('User')
+        .select('*')
+        .eq('id', id)
+        .single()
+
+    if (error) {
+        console.error('Gagal mengambil data user:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: 'Tidak dapat mengambil data pengguna.',
+            confirmButtonColor: '#00C9A7'
+        });
+        return;
+    }
+
+    console.log("Data user ditemukan:", data);
+
+    // Buka popup SweetAlert untuk edit
+    const { value: formValues } = await Swal.fire({
+        title: `Edit Pengguna: ${data.nama_lengkap}`,
+        html: `
+            <div>
+                <div class="flex gap-x-5">
+                    <div>
+                        <label for="editUsername" class="font-montserrat font-medium">Nama Lengkap</label>
+                        <input id="editUsername" type="text" placeholder="John bin Jono"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none" value="${data.nama_lengkap}">
+                    </div>
+                    <div>
+                        <label for="editPhone" class="font-montserrat font-medium">No. Telepon</label>
+                        <input id="editPhone" type="tel" placeholder="08123456789"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none" value="${data.no_telepon}">
+                    </div>
+                </div>
+
+                <div class="flex gap-x-5">
+                    <div class="w-full">
+                        <label for="editEmail" class="font-montserrat font-medium">Email</label>
+                        <input id="editEmail" type="email" required placeholder="john@email.com"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none" value="${data.email}">
+                    </div>
+                </div>
+
+                <select name="role" id="editRole" class='bg-gray py-3 px-5 rounded-lg'>
+                    <option value="" selected disabled>Update Role User</option>
+                    <option value="pasien">Pasien</option>
+                    <option value="perawat">Perawat</option>
+                    <option value="dokter">Dokter</option>
+                </select>
+            </div>`,
+        showCancelButton: true,
+        confirmButtonText: 'Simpan Perubahan',
+        confirmButtonColor: '#00C9A7',
+        preConfirm: () => {
+            return {
+                nama_lengkap: document.getElementById('editUsername').value.trim(),
+                email: document.getElementById('editEmail').value.trim(),
+                no_telepon: document.getElementById('editPhone').value.trim(),
+                role: document.getElementById('editRole').value
+            }
+        }
+    });
+
+    // Kalau user klik "Batal", hentikan
+    if (!formValues) return;
+
+    // Update data di Supabase
+    const { error: updateError } = await supabaseClient
+        .from('User')
+        .update({
+            nama_lengkap: formValues.nama_lengkap,
+            email: formValues.email,
+            no_telepon: formValues.no_telepon,
+            role: formValues.role
+        })
+        .eq('id', id);
+
+
+    if (updateError) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: 'Tidak dapat menyimpan perubahan.',
+            confirmButtonColor: '#00C9A7'
+        });
+        return;
+    }
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: 'Data pengguna berhasil diperbarui.',
+        confirmButtonColor: '#00C9A7'
+    });
+
+    // Refresh tabel
+    loadUsers(currentPage);
+}
+
+document.getElementById('prevPage').addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--
+        loadUsers(currentPage)
+    }
+})
+
+document.getElementById('nextPage').addEventListener('click', () => {
+    const totalPage = Math.ceil(totalData / limit)
+    if (currentPage < totalPage) {
+        currentPage++
+        loadUsers(currentPage)
+    }
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadUsers(currentPage)
+})
+
+
+
+
+
+
+
+
+
+
