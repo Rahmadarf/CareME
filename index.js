@@ -248,10 +248,11 @@ async function loadUsers(page = 1) {
                 <td class="p-3 font-montserrat font-medium text-main-gray">${start + index + 1}</td>
                 <td class="p-3 font-montserrat font-medium text-main-gray">${user.nama_lengkap}</td>
                 <td class="p-3 font-montserrat font-medium text-main-gray">${user.email}</td>
+                <td class="p-3 font-montserrat font-medium text-main-gray">${user.no_telepon}</td>
                 <td class="p-3 font-montserrat font-medium text-main-gray">${user.role}</td>
                 <td class="p-3 font-montserrat font-medium text-main-gray">
-                    <button class="bg-blue-600 py-2 px-4 rounded-lg cursor-pointer" onclick="editUser('${user.id}')"><img src="/img/square-pen.svg"></button>
-                    <button class="bg-red-500 py-2 px-4 rounded-lg cursor-pointer" onclick="deleteUser('${user.id}')"><img src="/img/trash-2.svg"></button>
+                    <button class="bg-blue-600 px-3 py-2 rounded-lg cursor-pointer" onclick="editUser('${user.id}')"><img src="/img/square-pen.svg"></button>
+                    <button class="bg-red-500 py-2 px-3 rounded-lg cursor-pointer" onclick="deleteUser('${user.id}')"><img src="/img/trash-2.svg"></button>
                 </td>
             </tr>`
 
@@ -362,6 +363,14 @@ window.editUser = async (id) => {
                         <label for="editEmail" class="font-montserrat font-medium">Email</label>
                         <input id="editEmail" type="email" required placeholder="john@email.com"
                             class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none" value="${data.email}">
+                    </div>
+                </div>
+
+                <div class="flex gap-x-5">
+                    <div class="w-full">
+                        <label for="editEmail" class="font-montserrat font-medium">Email</label>
+                        <input id="editEmail" type="email" required placeholder="john@email.com"
+                            class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none" value="${data.no_telepon}">
                     </div>
                 </div>
 
