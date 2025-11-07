@@ -123,7 +123,7 @@ document.getElementById('addUser').addEventListener('click', async () => {
             const email = document.getElementById("addEmail").value.trim();
             const password = document.getElementById("addPassword").value;
             const passwordConfirm = document.getElementById("addPasswordConfirm").value;
-            const selectRole = document.getElementById('addRole').value
+            const selectRole = document.getElementById('addRole').value.trim()
 
             if (!username || !phone || !email || !password || !passwordConfirm) {
                 Swal.showValidationMessage(`Harap lengkapi semua data!`);
@@ -135,6 +135,9 @@ document.getElementById('addUser').addEventListener('click', async () => {
             }
             if (!email.includes('@')) {
                 Swal.showValidationMessage('Pastikan menggunakan email yang valid')
+            }
+            if (!selectRole) {
+                Swal.showValidationMessage('Pastikan memilih role user')
             }
 
             // 🔍 Cek email
@@ -218,9 +221,9 @@ async function loadUsers(page = 1) {
     const start = (page - 1) * limit
     const end = start + limit - 1
 
-    const { data, error, count } = await supabaseClient
+    const { data, error } = await supabaseClient
         .from('User')
-        .select('*', { count: 'exact' })
+        .select('*')
         .range(start, end)
         .neq('role', 'admin')
 
@@ -228,6 +231,12 @@ async function loadUsers(page = 1) {
         console.error('Gagal menampilkan users:', error)
         tableUsers.innerHTML = `<tr><td colspan="5" class="p-3">Gagal memuat data</td></tr>`
     }
+
+
+    const { count } = await supabaseClient
+        .from('User')
+        .select('*', { count: 'exact', head: true })
+        .neq('role', 'admin');
 
     totalData = count
 
