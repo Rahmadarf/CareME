@@ -41,7 +41,7 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
     }
 
     document.getElementById('loginBtn').classList.add('opacity-70', 'pointer-events-none')
-    document.getElementById('loginBtn').innerHTML = `<img class="animate-spin w-7" src="img/loader-circle.svg" alt=""> 
+    document.getElementById('loginBtn').innerHTML = `<div class="w-10 h-10 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"></div> 
                                                     <span class="ml-2 font-montserrat">Memproses...</span>
 `
 
