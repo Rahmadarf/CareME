@@ -4,6 +4,10 @@ const supabaseUrl = 'https://qthrogwxjppfovcelwyh.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0aHJvZ3d4anBwZm92Y2Vsd3loIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4NzY2NzUsImV4cCI6MjA3NzQ1MjY3NX0.Z6j9MT2CHGWf32FnxViEWeRu1x-FrdWq1akfiZgWGSI';
 const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 async function getAllUsers() {
     const { data, error } = await supabaseClient
         .from('User')
@@ -35,7 +39,7 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
     if (email.value === '' || password.value === '' || phone.value === '' || username.value === '') {
         Swal.fire({
             icon: 'error',
-            confirmButtonColor: '#00C9A7',
+            confirmButtonColor: '#2563EB',
             title: 'Gagal Register',
             text: 'Silahkan Lengkapi Data Terlebih Dahulu',
         });
@@ -43,23 +47,39 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
     } else if (password.value !== passwordConfirm.value) {
         Swal.fire({
             icon: 'error',
-            confirmButtonColor: '#00C9A7',
+            confirmButtonColor: '#2563EB',
             title: 'Gagal Register',
             text: 'Password dan Konfirmasi Password Tidak Sesuai',
         });
         return;
+    } else if (!email.value.includes('@')) {
+        Swal.fire({
+            icon: 'error',
+            confirmButtonColor: '#2563EB',
+            title: 'Gagal Register',
+            text: 'Pastikan menggunakan email yang valid!',
+        });
+        return;
     }
+
+    document.getElementById('registerBtn').classList.add('opacity-70', 'pointer-events-none')
+    document.getElementById('registerBtn').innerHTML = `<img class="animate-spin w-7" src="img/loader-circle.svg" alt=""> 
+                                                    <span class="ml-2 font-montserrat">Memproses...</span>`
+
+    await delay(1500)
 
     const { data: existingUser, error: fetchError } = await supabaseClient
         .from('User')
         .select('*')
-        .eq('email', email.value);
+        .eq('email', email.value)
 
     if (fetchError) {
         console.error('Error fetching user:', fetchError);
+        document.getElementById('registerBtn').classList.remove('opacity-70', 'pointer-events-none')
+        document.getElementById('registerBtn').innerHTML = `Daftar`
         Swal.fire({
             icon: 'warning',
-            confirmButtonColor: '#00C9A7',
+            confirmButtonColor: '#2563EB',
             title: 'Error',
             text: 'Terjadi kesalahan saat memeriksa pengguna.',
         });
@@ -67,9 +87,11 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
     }
 
     if (existingUser && existingUser.length > 0) {
+        document.getElementById('registerBtn').classList.remove('opacity-70', 'pointer-events-none')
+        document.getElementById('registerBtn').innerHTML = `Daftar`
         Swal.fire({
             icon: 'info',
-            confirmButtonColor: '#00C9A7',
+            confirmButtonColor: '#2563EB',
             title: 'Email Sudah Terdaftar',
             text: 'Silahkan Gunakan Email Lain',
         });
@@ -84,9 +106,11 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
 
     if (fetchPhoneError) {
         console.error('Error fetching phone:', fetchPhoneError);
+        document.getElementById('registerBtn').classList.remove('opacity-70', 'pointer-events-none')
+        document.getElementById('registerBtn').innerHTML = `Daftar`
         Swal.fire({
             icon: 'warning',
-            confirmButtonColor: '#00C9A7',
+            confirmButtonColor: '#2563EB',
             title: 'Error',
             text: 'Terjadi kesalahan saat memeriksa nomor telepon.',
         });
@@ -94,9 +118,11 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
     }
 
     if (existingPhone && existingPhone.length > 0) {
+        document.getElementById('registerBtn').classList.remove('opacity-70', 'pointer-events-none')
+        document.getElementById('registerBtn').innerHTML = `Daftar`
         Swal.fire({
             icon: 'info',
-            confirmButtonColor: '#00C9A7',
+            confirmButtonColor: '#2563EB',
             title: 'Nomor Telepon Sudah Terdaftar',
             text: 'Silahkan Gunakan Nomor Telepon Lain',
         });
@@ -112,17 +138,21 @@ document.getElementById('registerBtn').addEventListener('click', async () => {
 
     if (error) {
         console.error('Error inserting user:', error);
+        document.getElementById('registerBtn').classList.remove('opacity-70', 'pointer-events-none')
+        document.getElementById('registerBtn').innerHTML = `Daftar`
         Swal.fire({
             icon: 'error',
-            confirmButtonColor: '#00C9A7',
+            confirmButtonColor: '#2563EB',
             title: 'Gagal Register',
             text: 'Terjadi kesalahan saat mendaftar.',
         });
         return;
     } else {
+        document.getElementById('registerBtn').classList.remove('opacity-70', 'pointer-events-none')
+        document.getElementById('registerBtn').innerHTML = `Daftar`
         Swal.fire({
             icon: 'success',
-            confirmButtonColor: '#00C9A7',
+            confirmButtonColor: '#2563EB',
             title: 'Berhasil Register',
             text: `Selamat Datang ${user.value}`,
         }).then(() => {

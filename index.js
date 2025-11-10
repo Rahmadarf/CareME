@@ -21,7 +21,7 @@ async function getAllUsers() {
 document.getElementById('out').addEventListener('click', () => {
     Swal.fire({
         icon: 'question',
-        confirmButtonColor: '#00C9A7',
+        confirmButtonColor: '#2563EB',
         showCancelButton: true,
         title: 'Apakah Anda Yakin Ingin Keluar?',
         text: 'Anda Perlu Login Kembali Untuk Mengakses Halaman Ini',
@@ -105,9 +105,8 @@ document.getElementById('addUser').addEventListener('click', async () => {
                     </div>
                 </div>
 
-                <select name="role" id="addRole" class='bg-gray py-3 px-5 rounded-lg'>
-                    <option value="" selected disabled>Pilih Role User</option>
-                    <option value="pasien">Pasien</option>
+                <select name="role" id="addRole" class='bg-gray py-3 px-5 rounded-lg focus:border-0'>
+                    <option value="pasien" selected>Pasien</option>
                     <option value="perawat">Perawat</option>
                     <option value="dokter">Dokter</option>
                 </select>
@@ -115,7 +114,7 @@ document.getElementById('addUser').addEventListener('click', async () => {
         focusConfirm: false,
         showCancelButton: true,
         confirmButtonText: 'Tambahkan',
-        confirmButtonColor: '#00C9A7',
+        confirmButtonColor: '#2563EB',
 
         preConfirm: async () => {
             const username = document.getElementById("addUsername").value.trim();
@@ -174,6 +173,8 @@ document.getElementById('addUser').addEventListener('click', async () => {
 
             // Jika semua aman, return data
             return { username, phone, email, password, selectRole };
+
+            Swal.showLoading()
         }
     });
 
@@ -192,7 +193,7 @@ document.getElementById('addUser').addEventListener('click', async () => {
     if (error) {
         Swal.fire({
             icon: 'error',
-            confirmButtonColor: '#00C9A7',
+            confirmButtonColor: '#2563EB',
             title: 'Gagal Menambahkan',
             text: 'Terjadi kesalahan saat menyimpan data.',
         });
@@ -201,7 +202,7 @@ document.getElementById('addUser').addEventListener('click', async () => {
 
     Swal.fire({
         icon: 'success',
-        confirmButtonColor: '#00C9A7',
+        confirmButtonColor: '#2563EB',
         title: 'Berhasil Menambahkan!',
         text: `Pengguna ${username} berhasil ditambahkan.`,
     });
@@ -250,9 +251,9 @@ async function loadUsers(page = 1) {
                 <td class="p-3 font-montserrat font-medium text-main-gray">${user.email}</td>
                 <td class="p-3 font-montserrat font-medium text-main-gray">${user.no_telepon}</td>
                 <td class="p-3 font-montserrat font-medium text-main-gray">${user.role}</td>
-                <td class="p-3 font-montserrat font-medium text-main-gray">
-                    <button class="bg-blue-600 px-3 py-2 rounded-lg cursor-pointer" onclick="editUser('${user.id}')"><img src="/img/square-pen.svg"></button>
-                    <button class="bg-red-500 py-2 px-3 rounded-lg cursor-pointer" onclick="deleteUser('${user.id}')"><img src="/img/trash-2.svg"></button>
+                <td class="p-3 font-montserrat font-medium text-main-gray flex gap-x-5 justify-center">
+                    <button class="bg-blue-600 px-3 py-2 rounded-lg cursor-pointer flex gap-x-3 text-black items-center" onclick="editUser('${user.id}')"><img src="/img/square-pen.svg"> Edit</button>
+                    <button class="bg-red-500 py-2 px-3 rounded-lg cursor-pointer flex gap-x-3 text-black items-center" onclick="deleteUser('${user.id}')"><img src="/img/trash-2.svg"> Hapus</button>
                 </td>
             </tr>`
 
@@ -301,7 +302,7 @@ window.deleteUser = async (id) => {
             icon: 'error',
             title: 'Gagal',
             text: 'Tidak dapat menghapus pengguna.',
-            confirmButtonColor: '#00C9A7'
+            confirmButtonColor: '#2563EB'
         });
         return;
     }
@@ -310,7 +311,7 @@ window.deleteUser = async (id) => {
         icon: 'success',
         title: 'Terhapus',
         text: 'Pengguna berhasil dihapus.',
-        confirmButtonColor: '#00C9A7'
+        confirmButtonColor: '#2563EB'
     });
 
     loadUsers(currentPage);
@@ -333,14 +334,14 @@ window.editUser = async (id) => {
             icon: 'error',
             title: 'Gagal!',
             text: 'Tidak dapat mengambil data pengguna.',
-            confirmButtonColor: '#00C9A7'
+            confirmButtonColor: '#2563EB'
         });
         return;
     }
 
     console.log("Data user ditemukan:", data);
 
-    // Buka popup SweetAlert untuk edit
+    //edit User
     const { value: formValues } = await Swal.fire({
         title: `Edit Pengguna: ${data.nama_lengkap}`,
         html: `
@@ -368,22 +369,22 @@ window.editUser = async (id) => {
 
                 <div class="flex gap-x-5">
                     <div class="w-full">
-                        <label for="editEmail" class="font-montserrat font-medium">Email</label>
+                        <label for="editEmail" class="font-montserrat font-medium">Nomor Telepon</label>
                         <input id="editEmail" type="email" required placeholder="john@email.com"
                             class="w-full h-[50px] border border-outline rounded-lg px-4 mt-2 mb-6 focus:outline-none" value="${data.no_telepon}">
                     </div>
                 </div>
 
-                <select name="role" id="editRole" class='bg-gray py-3 px-5 rounded-lg'>
-                    <option value="" selected disabled>Update Role User</option>
-                    <option value="pasien">Pasien</option>
-                    <option value="perawat">Perawat</option>
-                    <option value="dokter">Dokter</option>
+                <select name="role" id="editRole" class='bg-gray py-3 px-5 rounded-lg focus:border-0'>
+                    <option value="${data.role}" selected disabled>${data.role}</option>
+                    <option value="pasien" ${data.role === 'pasien' ? 'hidden' : ''}>Pasien</option>
+                    <option value="perawat" ${data.role === 'perawat' ? 'hidden' : ''}>Perawat</option>
+                    <option value="dokter" ${data.role === 'dokter' ? 'hidden' : ''}>Dokter</option>
                 </select>
             </div>`,
         showCancelButton: true,
         confirmButtonText: 'Simpan Perubahan',
-        confirmButtonColor: '#00C9A7',
+        confirmButtonColor: '#2563EB',
         preConfirm: () => {
             return {
                 nama_lengkap: document.getElementById('editUsername').value.trim(),
@@ -414,7 +415,7 @@ window.editUser = async (id) => {
             icon: 'error',
             title: 'Gagal!',
             text: 'Tidak dapat menyimpan perubahan.',
-            confirmButtonColor: '#00C9A7'
+            confirmButtonColor: '#2563EB'
         });
         return;
     }
@@ -423,7 +424,7 @@ window.editUser = async (id) => {
         icon: 'success',
         title: 'Berhasil!',
         text: 'Data pengguna berhasil diperbarui.',
-        confirmButtonColor: '#00C9A7'
+        confirmButtonColor: '#2563EB'
     });
 
     // Refresh tabel
