@@ -227,6 +227,7 @@ async function loadUsers(page = 1) {
         .select('*')
         .range(start, end)
         .neq('role', 'admin')
+        .order('id', { ascending: true})
 
     if (error) {
         console.error('Gagal menampilkan users:', error)
