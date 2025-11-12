@@ -53,8 +53,6 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
         .from('User')
         .select('*')
         .or(`email.eq.${inputValue},nama_lengkap.eq.${inputValue}`)
-        .limit(1)
-        .maybeSingle();
 
     if (fetchError) {
         console.error('Error fetching user:', fetchError);
@@ -81,7 +79,9 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
         return;
     }
 
-    if (existingUser.password !== password.value) {
+    const matchedUser = existingUser.find(u => u.password === password.value)
+
+    if (!matchedUser) {
         Swal.fire({
             icon: 'error',
             confirmButtonColor: '#2563EB',
@@ -91,21 +91,23 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
         document.getElementById('loginBtn').classList.remove('opacity-70', 'pointer-events-none');
         document.getElementById('loginBtn').innerHTML = `Masuk`
         return;
-    } else {
-        localStorage.setItem('sessionUser', JSON.stringify(existingUser));
+    } 
+
+
+        localStorage.setItem('sessionUser', JSON.stringify(matchedUser));
         Swal.fire({
             icon: 'success',
             confirmButtonColor: '#2563EB',
             title: 'Berhasil Login',
-            text: `Selamat Datang Kembali ${existingUser.nama_lengkap}`,
+            text: `Selamat Datang Kembali ${matchedUser.nama_lengkap}`,
         }).then(() => {
-            if (existingUser.role === 'pasien') {
+            if (matchedUser.role === 'pasien') {
                 window.location.href = 'patient.html';
-            } else if (existingUser.role === 'dokter') {
+            } else if (matchedUser.role === 'dokter') {
                 window.location.href = 'doctor.html';
-            } else if (existingUser.role === 'perawat') {
+            } else if (matchedUser.role === 'perawat') {
                 window.location.href = 'nurse.html';
-            } else if (existingUser.role === 'admin') {
+            } else if (matchedUser.role === 'admin') {
                 window.location.href = 'index.html';
             }
             document.getElementById("email").value = '';
@@ -113,7 +115,6 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
         });
         document.getElementById('loginBtn').classList.remove('opacity-70', 'pointer-events-none');
         document.getElementById('loginBtn').innerHTML = `Masuk`
-    }
 });
 
 
